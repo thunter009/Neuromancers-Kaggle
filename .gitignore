@@ -1,0 +1,6 @@
+.DS_Store
+.ipynb_checkpoints/*
+images_sample/*
+test.json
+train.json
+sample_submission.csv.zip
