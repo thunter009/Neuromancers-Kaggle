@@ -58,5 +58,5 @@ def num_keyword(df):
     return df
 
 def no_photo(df):
-    df['n_no_photo'] = [1 if i == 0 else 0 for i in map(len,df['photos']
+    df['n_no_photo'] = [1 if i == 0 else 0 for i in map(len,df['photos'])]
     return df                                                    
