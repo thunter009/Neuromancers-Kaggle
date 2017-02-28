@@ -56,3 +56,7 @@ def num_keyword(df):
 
     df['n_num_keyfeat_score']= nfeat_score
     return df
+
+def no_photo(df):
+    df['n_no_photo'] = [1 if i == 0 else 0 for i in map(len,df['photos']
+    return df                                                    
