@@ -59,4 +59,21 @@ def num_keyword(df):
 
 def no_photo(df):
     df['n_no_photo'] = [1 if i == 0 else 0 for i in map(len,df['photos'])]
-    return df                                                    
+    return df  
+
+def count_caps(df):
+    def get_caps(message):
+        caps =sum(1 for c in message if c.isupper())
+        total_characters =sum(1 for c in test if c.isalpha())
+        if total_characters>0:
+            caps = caps/(total_characters* 1.0)
+        return caps
+    df['amount_of_caps']=df['description'].apply(get_caps)
+    return df
+
+def has_phone(df):
+    phone_regex = "(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})" # http://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number
+    has_phone = t_df['description'].str.extract(phone_regex)
+    df['has_phone']=[type(item)==unicode for item in has_phone]
+    return df
+
