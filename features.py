@@ -90,4 +90,15 @@ def n_expensive(df):
     threshold_75p = df[['price']].describe().loc['75%','price']
     df['n_expensive']=[1 if i > threshold_75p else 0 for i in list(df['price'])]
     return df
-
+def dist_from_midtown(df):
+    from geopy.distance import vincenty
+    lat = df['latitude'].tolist()
+    long_ = df['longitude'].tolist()
+    midtown_lat = 40.7586
+    midtown_long = -73.9838
+    distance =[]
+    for i in range(len(lat)):
+        distance.append(vincenty((lat[i],long[i]),(midtown_lat,midtown_long)).meters)
+    df['distance_from_midtown'] = distance
+    return df
+    
