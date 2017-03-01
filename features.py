@@ -77,3 +77,17 @@ def has_phone(df):
     df['has_phone']=[type(item)==unicode for item in has_phone]
     return df
 
+def n_price_sqrt(df):
+    # n_price_sqrt improves original 'price' variable smoothing extreme right skew and fat tails. 
+    # Use either 'price' or this new var to avoid multicolinearity.
+    df['n_price_sqrt'] =  df['price']**(0.5)
+    return df
+
+def n_expensive(df):
+    # 'Low' interest make 70% population. Statistical analysis shows price among 'Low' interest exhibits the highest kurtosis and skew. 
+    # n_expensive is 1 when the price is above 75% percentile aggregate prices and 0 otherwise.
+    # you can use it along with either price or n_price_sqrt.
+    threshold_75p = df[['price']].describe().loc['75%','price']
+    df['n_expensive']=[1 if i > threshold_75p else 0 for i in list(df['price'])]
+    return df
+
