@@ -141,7 +141,7 @@ def compare_price_vs_median(df,n,i):
         distance = vincenty((lats[j],longs[j]),(lat,lon)).meters
         distances.append(distance)
     # http://stackoverflow.com/questions/13070461/get-index-of-the-top-n-values-of-a
-    dist_positions= sorted(range(len(distances)), key=lambda k: distances[k])[-n:] 
+    dist_positions= sorted(range(len(distances)), key=lambda k: distances[k],reverse=True)[-n:] 
     top_dist_df= with_same_bed_bath.iloc[dist_positions,:]  
     med_price = with_same_bed_bath['price'].median()
     diff = price/med_price
