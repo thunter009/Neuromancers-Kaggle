@@ -77,10 +77,11 @@ def has_phone(df):
     df['has_phone']=[type(item)==unicode for item in has_phone]
     return df
 
-def n_price_sqrt(df):
-    # n_price_sqrt improves original 'price' variable smoothing extreme right skew and fat tails. 
+def n_log_price(df):
+    # n_log_price improves original 'price' variable smoothing extreme right skew and fat tails. 
     # Use either 'price' or this new var to avoid multicolinearity.
-    df['n_price_sqrt'] =  df['price']**(0.5)
+    import numpy as np
+    df['n_log_price'] =  np.log(df['price'])
     return df
 
 def n_expensive(df):
