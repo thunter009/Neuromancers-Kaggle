@@ -64,7 +64,7 @@ def no_photo(df):
 def count_caps(df):
     def get_caps(message):
         caps =sum(1 for c in message if c.isupper())
-        total_characters =sum(1 for c in test if c.isalpha())
+        total_characters =sum(1 for c in message if c.isalpha())
         if total_characters>0:
             caps = caps/(total_characters* 1.0)
         return caps
