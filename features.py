@@ -119,7 +119,7 @@ def dist_from_midtown(df):
     distance = []
     for i in range(len(lat)):
         distance.append(
-            vincenty((lat[i], long[i]), (midtown_lat, midtown_long)).meters)
+            vincenty((lat[i], long_[i]), (midtown_lat, midtown_long)).meters)
     df['distance_from_midtown'] = distance
     return df
 
