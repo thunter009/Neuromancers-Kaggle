@@ -104,4 +104,47 @@ def dist_from_midtown(df):
         distance.append(vincenty((lat[i],long[i]),(midtown_lat,midtown_long)).meters)
     df['distance_from_midtown'] = distance
     return df
+def nearest_neighbors(df,n):
+    # Input: df and num of meighbors
+    # Output: df with price_vs_median for each row
+    df_sub = df[['latitude','longitude','price','bedrooms','bathrooms']]
+    rows = range(df.shape[0])
+    diffs = map(lambda row: compare_price_vs_median(df_sub,n,row),rows)
+    df['price_vs_median_'+str(n)] = diffs
+    return df 
+
+
+def compare_price_vs_median(df,n,i):
+    from geopy.distance import vincenty
+    # Help function For nearest_neighbors
+    # Requires geopy.distance
+    # for each lat long 
+    # calculate dist from all other lat longs with same beds and bathrooms 
+    # find n nearest neighbors 
+    # calculate median price of n nearest neighbors 
+    # compare price vs median 
+    print(i)
+    row = df.iloc[i,:]
+    lat = row['latitude']
+    lon = row['longitude']
+    bed = row['bedrooms']
+    bath = row['bathrooms']
+    price = row['price']
+    df.index = range(df.shape[0])
+    all_other_data = df.drop(df.index[[i]])
+    with_same_bed_bath=all_other_data[all_other_data['bedrooms']==bed]
+    with_same_bed_bath=with_same_bed_bath[with_same_bed_bath['bathrooms']==bath]
+    longs = with_same_bed_bath['longitude'].tolist()
+    lats = with_same_bed_bath['latitude'].tolist()
+    distances = []
+    for j in range(len(lats)):
+        distance = vincenty((lats[j],longs[j]),(lat,lon)).meters
+        distances.append(distance)
+    # http://stackoverflow.com/questions/13070461/get-index-of-the-top-n-values-of-a
+    dist_positions= sorted(range(len(distances)), key=lambda k: distances[k])[-n:] 
+    top_dist_df= with_same_bed_bath.iloc[dist_positions,:]  
+    med_price = with_same_bed_bath['price'].median()
+    diff = price/med_price
+    return diff
+
     
