@@ -92,6 +92,8 @@ def n_expensive(df):
     return df
 def dist_from_midtown(df):
     from geopy.distance import vincenty
+    # pip install geopy 
+    # calculates vincenty dist https://en.wikipedia.org/wiki/Vincenty's_formulae
     lat = df['latitude'].tolist()
     long_ = df['longitude'].tolist()
     midtown_lat = 40.7586
