@@ -232,3 +232,18 @@ def compare_price_vs_median_with_date(df, n, i,days):
     diff = price / med_price
     return diff
 
+
+def manager_skill(df):
+    new_var = 'manager_id'#'manager_id_encoded'
+    #response var
+    resp_var = 'interest_level'
+    temp = pd.concat([df[new_var], pd.get_dummies(df[resp_var])], axis = 1).groupby(new_var).mean()
+    temp.columns = ['high_frac','low_frac', 'medium_frac']
+    temp['count'] = df.groupby(new_var).count().iloc[:,1]
+    temp['manager_skill'] = temp['high_frac']*2 + temp['medium_frac']
+    manager_skill=[]
+    for i in df['manager_id']:
+        for j in temp.index:
+            if i==j:
+                manager_skill.append(temp['manager_skill'][j])
+    df['manager_skill']=manager_skill
