@@ -176,7 +176,16 @@ def price_vs_mean_30(df):
     mean = np.mean(temp) 
     import math
     df['price_vs_median_30'] = [mean if math.isnan(i)== True  else round(i,2) for i in temp]
+    return df
 
+def price_vs_mean_72(df):
+    # userfriendly for def_nearest_neighbour created earlier.
+    # Output: df with price_vs_median for each row
+    # The code below solves NA issues and round some results to save execution errors
+    temp = pd.read_json("price_vs_median72.json")['price_vs_median_72']
+    mean = np.mean(temp) 
+    import math
+    df['price_vs_median_72'] = [mean if math.isnan(i)== True  else round(i,2) for i in temp]
     return df
 
 def nearest_neighbors_with_date(df, n,days):
