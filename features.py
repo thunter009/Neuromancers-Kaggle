@@ -178,3 +178,57 @@ def price_vs_mean_30(df):
     df['price_vs_median_30'] = [mean if math.isnan(i)== True  else round(i,2) for i in temp]
 
     return df
+
+def nearest_neighbors_with_date(df, n,days):
+    from datetime import datetime
+    # Input: df and num of meighbors
+    # Output: df with price_vs_median for each row
+    df_sub = df[['latitude', 'longitude', 'price', 'bedrooms', 'bathrooms','created']]
+    df_sub['date']=df_sub['created'].apply(lambda d: datetime.strptime(d.split(" ")[0], "%Y-%m-%d"))
+    rows = range(df.shape[0])
+    diffs = map(lambda row: compare_price_vs_median_with_date(df_sub, n, row,days), rows)
+    df['price_vs_median_' + str(n)] = diffs
+    return df
+
+
+
+def compare_price_vs_median_with_date(df, n, i,days):
+    from geopy.distance import vincenty
+    from datetime import datetime,timedelta
+    # Help function For nearest_neighbors
+    # Requires geopy.distance
+    # for each lat long
+    # filter for only places with same beds and bathroom
+    # filter for places that were posted within z days
+    # calculate dist from all other lat longs with same beds and bathrooms
+    # find n nearest neighbors
+    # calculate median price of n nearest neighbors
+    # compare price vs median
+    row = df.iloc[i, :]
+    lat = row['latitude']
+    lon = row['longitude']
+    bed = row['bedrooms']
+    bath = row['bathrooms']
+    price = row['price']
+    date = row['date']
+    date_after_n_days = date + timedelta(days=days)
+    date_before_n_days = date + timedelta(days=-days)
+    df.index = range(df.shape[0])
+    all_other_data = df.drop(df.index[[i]])
+    with_same_bed_bath = all_other_data[all_other_data['bedrooms'] == bed]
+    with_same_bed_bath = with_same_bed_bath[with_same_bed_bath['bathrooms'] == bath]
+    with_same_bed_bath = with_same_bed_bath[(with_same_bed_bath['date'] > date_before_n_days) & (with_same_bed_bath['date'] < date_after_n_days)]
+    longs = with_same_bed_bath['longitude'].tolist()
+    lats = with_same_bed_bath['latitude'].tolist()
+    distances = []
+    for j in range(len(lats)):
+        distance = vincenty((lats[j], longs[j]), (lat, lon)).meters
+        distances.append(distance)
+    # http://stackoverflow.com/questions/13070461/get-index-of-the-top-n-values-of-a
+    dist_positions = sorted(range(len(distances)),
+                            key=lambda k: distances[k], reverse=True)[-n:]
+    top_dist_df = with_same_bed_bath.iloc[dist_positions, :]
+    med_price = with_same_bed_bath['price'].median()
+    diff = price / med_price
+    return diff
+
