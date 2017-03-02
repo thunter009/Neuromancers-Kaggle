@@ -167,3 +167,14 @@ def compare_price_vs_median(df, n, i):
     med_price = with_same_bed_bath['price'].median()
     diff = price / med_price
     return diff
+
+def price_vs_mean_30(df):
+    # userfriendly for def_nearest_neighbour created earlier.
+    # Output: df with price_vs_median for each row
+    # The code below solves NA issues and round some results to save execution errors
+    temp = pd.read_json("price_vs_median30.json")['price_vs_median_30']
+    mean = np.mean(temp) 
+    import math
+    df['price_vs_median_30'] = [mean if math.isnan(i)== True  else round(i,2) for i in temp]
+
+    return df
