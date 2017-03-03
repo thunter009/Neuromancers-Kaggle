@@ -332,7 +332,7 @@ def add_neighbor_features_72(df):
   return df 
 
 
-def scrub_features(df):
+def scrub_features(df, method='count'):
 
     regex_co = {
         "nofee": "no fee",
@@ -362,5 +362,5 @@ def scrub_features(df):
         df[colname] = df['features'].apply(find_regex)
 
     for name, regex in regex_co.items():
-        create_regex(df, regex, name, method='binary')
+        create_regex(df, regex, name, method=method)
     return df
