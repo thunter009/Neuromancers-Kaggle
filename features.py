@@ -512,3 +512,34 @@ def no_fee(df):
 
     df['no_fee_'] = nfeat_score
     return df
+
+def 'dist_to_nearest_college'(df):
+    Baruch = (40.7402, -73.9834)
+    Columbia = (40.8075, -73.9626)
+    Cooper_Union = (40.7299, -73.9903)
+    FIT = (40.7475, -73.9951)
+    Hunter_College = (40.7685, -73.9657)
+    John_Jay = (40.7704, -73.9885)
+    Julliard = (40.7738, -73.9828)
+    NYU = (40.7295, -73.9965)
+    NYU_Tandon = (40.6942, -73.9866)
+    Pace_University=(40.7111, -74.0049)
+    Pratt_University = (40.6913, -73.9625)
+    The_New_School = (40.7355199, -73.99715879999997)
+    Weill_Cornell = (40.7650, -73.9548) 
+
+    schools = [Baruch,Columbia,Cooper_Union,FIT,Hunter_College,John_Jay, Julliard, NYU, NYU_Tandon,
+              Pace_University, Pratt_University, The_New_School, Weill_Cornell]
+
+    from geopy.distance import vincenty
+    import numpy as np
+    distance = []
+    for i in range(0,len(df['latitude']),1):
+        lat_long = (list(df['latitude'])[i],list(df['longitude'])[i])
+        temp=[]
+        for j in schools:
+            temp.append(
+            vincenty(lat_long, j).meters)
+        distance.append(min(temp))
+    df['dist_to_nearest_college']= distance
+    return df
