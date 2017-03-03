@@ -269,262 +269,8 @@ def manager_skill(df):
     df['manager_skill'] = manager_skill_clean
     return df
 
-#Indepth Features
 
-def allow_pet(df):
-    # n_num_keyword: check if a key word makes a difference in terms of
-    # interest_level:
-    match_list = [map(lambda x: re.search('cats|dogs', x.lower()),
-                      list(df['features'])[i]) for i in np.arange(0, len(df['features']), 1)]
-    nfeat_list = []
-    for i in match_list:
-        if i is None:
-            nfeat_list.append(0)
-        else:
-            if not any(i):  # check to filter out lists with no all None values
-                nfeat_list.append(0)
-            else:
-                lis1 = []
-                map(lambda x: lis1.append(1) if x is None else lis1.append(0), i)
-                nfeat_list.append(sum(lis1))
-
-    # new variable n_num_keyfeat_score
-    nfeat_score = []
-    for i in nfeat_list:
-        if i >0:
-            nfeat_score.append(1)
-        else:
-            nfeat_score.append(0)
-
-    df['allow_pets'] = nfeat_score
-    return df
-
-
-def laundry(df):
-    # n_num_keyword: check if a key word makes a difference in terms of
-    # interest_level:
-    match_list = [map(lambda x: re.search('laundry', x.lower()),
-                      list(df['features'])[i]) for i in np.arange(0, len(df['features']), 1)]
-    nfeat_list = []
-    for i in match_list:
-        if i is None:
-            nfeat_list.append(0)
-        else:
-            if not any(i):  # check to filter out lists with no all None values
-                nfeat_list.append(0)
-            else:
-                lis1 = []
-                map(lambda x: lis1.append(1) if x is None else lis1.append(0), i)
-                nfeat_list.append(sum(lis1))
-
-    # new variable n_num_keyfeat_score
-    nfeat_score = []
-    for i in nfeat_list:
-        if i >0:
-            nfeat_score.append(1)
-        else:
-            nfeat_score.append(0)
-
-    df['laundry'] = nfeat_score
-    return df
-
-def preWar(df):
-    # n_num_keyword: check if a key word makes a difference in terms of
-    # interest_level:
-    match_list = [map(lambda x: re.search('prewar|pre-war', x.lower()),
-                      list(df['features'])[i]) for i in np.arange(0, len(df['features']), 1)]
-    nfeat_list = []
-    for i in match_list:
-        if i is None:
-            nfeat_list.append(0)
-        else:
-            if not any(i):  # check to filter out lists with no all None values
-                nfeat_list.append(0)
-            else:
-                lis1 = []
-                map(lambda x: lis1.append(1) if x is None else lis1.append(0), i)
-                nfeat_list.append(sum(lis1))
-
-    # new variable n_num_keyfeat_score
-    nfeat_score = []
-    for i in nfeat_list:
-        if i >0:
-            nfeat_score.append(1)
-        else:
-            nfeat_score.append(0)
-
-    df['preWar'] = nfeat_score
-    return df
-
-def furnished(df):
-    # n_num_keyword: check if a key word makes a difference in terms of
-    # interest_level:
-    match_list = [map(lambda x: re.search('furnished', x.lower()),
-                      list(df['features'])[i]) for i in np.arange(0, len(df['features']), 1)]
-    nfeat_list = []
-    for i in match_list:
-        if i is None:
-            nfeat_list.append(0)
-        else:
-            if not any(i):  # check to filter out lists with no all None values
-                nfeat_list.append(0)
-            else:
-                lis1 = []
-                map(lambda x: lis1.append(1) if x is None else lis1.append(0), i)
-                nfeat_list.append(sum(lis1))
-
-    # new variable n_num_keyfeat_score
-    nfeat_score = []
-    for i in nfeat_list:
-        if i >0:
-            nfeat_score.append(1)
-        else:
-            nfeat_score.append(0)
-
-    df['furnished'] = nfeat_score
-    return df
-
-def dishwash(df):
-    # n_num_keyword: check if a key word makes a difference in terms of
-    # interest_level:
-    match_list = [map(lambda x: re.search('dishwasher', x.lower()),
-                      list(df['features'])[i]) for i in np.arange(0, len(df['features']), 1)]
-    nfeat_list = []
-    for i in match_list:
-        if i is None:
-            nfeat_list.append(0)
-        else:
-            if not any(i):  # check to filter out lists with no all None values
-                nfeat_list.append(0)
-            else:
-                lis1 = []
-                map(lambda x: lis1.append(1) if x is None else lis1.append(0), i)
-                nfeat_list.append(sum(lis1))
-
-    # new variable n_num_keyfeat_score
-    nfeat_score = []
-    for i in nfeat_list:
-        if i >0:
-            nfeat_score.append(1)
-        else:
-            nfeat_score.append(0)
-
-    df['dishwash'] = nfeat_score
-    return df
-
-def hardwood(df):
-    # n_num_keyword: check if a key word makes a difference in terms of
-    # interest_level:
-    match_list = [map(lambda x: re.search('hardwood', x.lower()),
-                      list(df['features'])[i]) for i in np.arange(0, len(df['features']), 1)]
-    nfeat_list = []
-    for i in match_list:
-        if i is None:
-            nfeat_list.append(0)
-        else:
-            if not any(i):  # check to filter out lists with no all None values
-                nfeat_list.append(0)
-            else:
-                lis1 = []
-                map(lambda x: lis1.append(1) if x is None else lis1.append(0), i)
-                nfeat_list.append(sum(lis1))
-
-    # new variable n_num_keyfeat_score
-    nfeat_score = []
-    for i in nfeat_list:
-        if i >0:
-            nfeat_score.append(1)
-        else:
-            nfeat_score.append(0)
-
-    df['hardwood'] = nfeat_score
-    return df
-
-def fitness(df):
-    # n_num_keyword: check if a key word makes a difference in terms of
-    # interest_level:
-    match_list = [map(lambda x: re.search('fitness|swimming', x.lower()),
-                      list(df['features'])[i]) for i in np.arange(0, len(df['features']), 1)]
-    nfeat_list = []
-    for i in match_list:
-        if i is None:
-            nfeat_list.append(0)
-        else:
-            if not any(i):  # check to filter out lists with no all None values
-                nfeat_list.append(0)
-            else:
-                lis1 = []
-                map(lambda x: lis1.append(1) if x is None else lis1.append(0), i)
-                nfeat_list.append(sum(lis1))
-
-    # new variable n_num_keyfeat_score
-    nfeat_score = []
-    for i in nfeat_list:
-        if i >0:
-            nfeat_score.append(1)
-        else:
-            nfeat_score.append(0)
-
-    df['fitness'] = nfeat_score
-    return df
-
-def doorman(df):
-    # n_num_keyword: check if a key word makes a difference in terms of
-    # interest_level:
-    match_list = [map(lambda x: re.search('doorman', x.lower()),
-                      list(df['features'])[i]) for i in np.arange(0, len(df['features']), 1)]
-    nfeat_list = []
-    for i in match_list:
-        if i is None:
-            nfeat_list.append(0)
-        else:
-            if not any(i):  # check to filter out lists with no all None values
-                nfeat_list.append(0)
-            else:
-                lis1 = []
-                map(lambda x: lis1.append(1) if x is None else lis1.append(0), i)
-                nfeat_list.append(sum(lis1))
-
-    # new variable n_num_keyfeat_score
-    nfeat_score = []
-    for i in nfeat_list:
-        if i >0:
-            nfeat_score.append(1)
-        else:
-            nfeat_score.append(0)
-
-    df['doorman'] = nfeat_score
-    return df
-
-def no_fee(df):
-    # n_num_keyword: check if a key word makes a difference in terms of
-    # interest_level:
-    match_list = [map(lambda x: re.search('no fee', x.lower()),
-                      list(df['features'])[i]) for i in np.arange(0, len(df['features']), 1)]
-    nfeat_list = []
-    for i in match_list:
-        if i is None:
-            nfeat_list.append(0)
-        else:
-            if not any(i):  # check to filter out lists with no all None values
-                nfeat_list.append(0)
-            else:
-                lis1 = []
-                map(lambda x: lis1.append(1) if x is None else lis1.append(0), i)
-                nfeat_list.append(sum(lis1))
-
-    # new variable n_num_keyfeat_score
-    nfeat_score = []
-    for i in nfeat_list:
-        if i >0:
-            nfeat_score.append(1)
-        else:
-            nfeat_score.append(0)
-
-    df['no_fee_'] = nfeat_score
-    return df
-
-def 'dist_to_nearest_college'(df):
+def dist_to_nearest_college(df):
     Baruch = (40.7402, -73.9834)
     Columbia = (40.8075, -73.9626)
     Cooper_Union = (40.7299, -73.9903)
@@ -586,3 +332,35 @@ def add_neighbor_features_72(df):
   return df 
 
 
+def scrub_features(df):
+
+    regex_co = {
+        "nofee": "no fee",
+        "doorman": "doorman",
+        "fitness": "fitness|swimming",
+        "hardwood": "hardwood",
+        "dishwash": "dishwasher",
+        "preWar": "prewar|pre-war",
+        "furnished": "furnished",
+        "laundry": "laundry",
+        "allow_pets": "cats|dogs",
+    }
+
+    def create_regex(df, regex, colname, method='count'):
+        def find_regex(lis, method=method):
+            text = ' '.join(lis)
+            r = re.compile(regex, flags=re.IGNORECASE)
+            matches = r.findall(text)
+            num_matches = len(matches)
+            if method == 'count':
+                return num_matches
+            elif method == 'binary':
+                if num_matches > 0:
+                    return 1
+                else:
+                    return 0
+        df[colname] = df['features'].apply(find_regex)
+
+    for name, regex in regex_co.items():
+        create_regex(df, regex, name, method='binary')
+    return df
