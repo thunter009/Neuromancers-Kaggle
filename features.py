@@ -580,3 +580,9 @@ def 'dist_to_nearest_tube'(df):
     df['dist_to_nearest_tube']= distance
     return df
 
+def add_neighbor_features_72(df):
+  moredata = pd.read_csv("neighborhood_values_test_72.csv")
+  df = pd.merge(df, moredata, how='inner', on=['listing_id', 'listing_id'])
+  return df 
+
+
