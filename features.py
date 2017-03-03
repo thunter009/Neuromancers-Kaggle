@@ -301,7 +301,7 @@ def dist_to_nearest_college(df):
     df['dist_to_nearest_college']= distance
     return df
 
-def 'dist_to_nearest_tube'(df):
+def dist_to_nearest_tube(df):
     tube_lat_long = pd.read_csv('http://web.mta.info/developers/data/nyct/subway/StationEntrances.csv') \
         [['Station_Name','Station_Latitude','Station_Longitude']]    
 
@@ -327,9 +327,9 @@ def 'dist_to_nearest_tube'(df):
     return df
 
 def add_neighbor_features_72(df):
-  moredata = pd.read_csv("neighborhood_values_test_72.csv")
-  df = pd.merge(df, moredata, how='inner', on=['listing_id', 'listing_id'])
-  return df 
+    moredata = pd.read_csv("neighborhood_values_test_72.csv")
+    df = pd.merge(df, moredata, how='inner', on=['listing_id', 'listing_id'])
+    return df 
 
 
 def scrub_features(df, method='count'):
