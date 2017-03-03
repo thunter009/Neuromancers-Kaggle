@@ -543,3 +543,29 @@ def 'dist_to_nearest_college'(df):
         distance.append(min(temp))
     df['dist_to_nearest_college']= distance
     return df
+
+def 'dist_to_nearest_tube'(df):
+    tube_lat_long = pd.read_csv('http://web.mta.info/developers/data/nyct/subway/StationEntrances.csv') \
+        [['Station_Name','Station_Latitude','Station_Longitude']]    
+
+    tube_lat_long = tube_lat_long.groupby('Station_Name').agg(['mean']) # unique stations only
+
+    stations=[]
+    for i in range(0,len(tube_lat_long),1):
+            stations.append(
+                (tube_lat_long.iloc[:,0][i],tube_lat_long.iloc[:,1][i]))
+
+    from geopy.distance import vincenty
+    import numpy as np
+    distance = []
+    for i in range(0,len(df['latitude']),1):
+        lat_long = (list(df['latitude'])[i],list(df['longitude'])[i])
+        temp=[]
+        for j in stations:
+            temp.append(
+            vincenty(lat_long, j).meters)
+        distance.append(min(temp))
+
+    df['dist_to_nearest_tube']= distance
+    return df
+
