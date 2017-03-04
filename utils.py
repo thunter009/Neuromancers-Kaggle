@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 
 def tree_errors(rf, x, y, X, Y):
@@ -45,3 +46,8 @@ def plotModel(model, x, y, label):
         pl.scatter(x[index], y[index], c=label[index], s=100, alpha=0.5)
     except:
         pass
+
+
+def plot_feature_importance(features, model):
+    pd.Series(index=features,
+              data=model.feature_importances_).sort_values().plot(kind='bar')
