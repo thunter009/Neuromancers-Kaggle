@@ -243,31 +243,25 @@ def compare_price_vs_median_with_date(df, n, i,days):
 
 
 def manager_skill(df):
-    #new var to create
-    new_var = 'manager_id'#'manager_id_encoded'
-    #response var
-    resp_var = 'interest_level'
-    # Step 1: create manager_skill ranking from training set:
-    train_df = pd.read_json("train.json") # upload training scores => test data cannot create a rank skill
-    temp = pd.concat([train_df[new_var], pd.get_dummies(train_df[resp_var])], axis = 1).groupby(new_var).mean()
-    temp.columns = ['high_frac','low_frac', 'medium_frac']
-    temp['count'] = train_df.groupby(new_var).count().iloc[:,1]
-    temp['manager_skill'] = temp['high_frac']*2 + temp['medium_frac']
-    # Step 2: fill working dataset (e.g. test set) with ranking figures and replace new manager_id not present in our
-    # training set with an average assumption:
-    manager_skill=[]
-    for i in df['manager_id']:
-        for j in temp.index:
-            if i==j:
-                manager_skill.append(temp['manager_skill'][j])
-            else:
-                manager_skill.append(-1) # we flag this to replace it for average later and control for manager_ids not present in training _df
-    # Step 3: Replacing new manager_id scores not available in training set with the mean: 
-    mean_manager_skill= np.mean(manager_skill)
-    manager_skill_clean = [mean_manager_skill if i==-1 else i for i in manager_skill] # replace NA (labelled as -1 earlier) for the mean
+#new var to create
+new_var = 'manager_id'#'manager_id_encoded'
+#response var
+resp_var = 'interest_level'
+# Step 1: create manager_skill ranking from training set:
+train_df = pd.read_json("train.json") # upload training scores => test data cannot create a rank skill
+temp = pd.concat([train_df[new_var], pd.get_dummies(train_df[resp_var])], axis = 1).groupby(new_var).mean()
+temp.columns = ['high_frac','low_frac', 'medium_frac']
+temp['count'] = train_df.groupby(new_var).count().iloc[:,1]
+temp['manager_skill'] = temp['high_frac']*2 + temp['medium_frac']
+# Step 2: Fill working dataset (e.g. test set) with ranking figures using left-merge to match original_id and temp dfs
+mean_manager_skill = np.mean(temp['manager_skill'])
 
-    df['manager_skill'] = manager_skill_clean
-    return df
+skill_df = pd.merge(df[['manager_id']],temp[['manager_skill']] , 
+                            how='left', left_on='manager_id', right_index=True)[['manager_skill']]
+
+skill_df.fillna(mean_manager_skill, inplace=True)
+df['manager_skill'] = list(skill_df['manager_skill'])
+return df
 
 
 def dist_to_nearest_college(df):
